@@ -25,6 +25,19 @@ class UserRepository {
         }
     }
 
+    async findByUsernameAndPassword(username: string,password: string){
+        try{const query = `SELECT uuid, username from Authy_user WHERE username = $1 AND password = crypt(=$2,'my_salt')`;
+        const values = [username,password];
+        const {rows} = await db.query<User>(query,values);
+        const [user] = rows;
+
+        return user || null;
+    }catch(error){
+        throw new DatabBaseError('Username or Passwor Error',error);
+    }
+
+    }
+
     async create(user: User): Promise<string> {
         const script = `INSERT INTO Authy_user (username, password) VALUES ($1, crypt($2,'my_salt')) RETURNING uuid`;
 
@@ -36,7 +49,7 @@ class UserRepository {
     }
 
     async update(user: User): Promise<void> {
-        const script = `UPDATE INTO Authy_user SET username=$1, password=crypt($2, 'my_salt) WHERE uuid = $3`;
+        const script = `UPDATE INTO Authy_user SET username=$1, password=crypt($2, 'my_salt') WHERE uuid = $3`;
 
         const values = [user.username, user.password,user.uuid];
         await db.query(script, values);
