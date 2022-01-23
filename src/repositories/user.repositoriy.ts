@@ -39,7 +39,7 @@ class UserRepository {
     }
 
     async create(user: User): Promise<string> {
-        const script = `INSERT INTO Authy_user (username, password) VALUES ($1, crypt($2,'my_salt')) RETURNING uuid`;
+        const script = `INSERT INTO Authy_user (username, password) VALUES ($1, crypt($2,'my_salt'))`;
 
         const values = [user.username, user.password];
         const {rows} = await db.query<{uuid: string}>(script, values);

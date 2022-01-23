@@ -1,10 +1,11 @@
 import { Request,Response,NextFunction, Router } from "express";
+import BearerATMiddleware from "../middlewares/bearer-authy.middleware";
 import DatabBaseError from "../models/errors/database.error.model";
 import userRepositoriy from "../repositories/user.repositoriy";
 
 const usersRoute = Router();
 
-usersRoute.get('/users', async (req: Request,res: Response,next: NextFunction) => {
+usersRoute.get('/users',BearerATMiddleware, async (req: Request,res: Response,next: NextFunction) => {
     const users = await userRepositoriy.findAllUsers();
     res.status(200).send(users);
 });

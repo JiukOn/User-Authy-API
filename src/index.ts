@@ -1,6 +1,5 @@
 import express, {Request, Response, NextFunction} from 'express';
-import basicAtMiddleware from './middlewares/basic-authy.middleware';
-import basicAuthyMiddleware from './middlewares/basic-authy.middleware';
+import BearerATMiddleware from './middlewares/bearer-authy.middleware';
 import errorHandler from './middlewares/errorhandler.middleware';
 import AuthyRoute from './routes/authy.route';
 import statusRoute from './routes/status.route';

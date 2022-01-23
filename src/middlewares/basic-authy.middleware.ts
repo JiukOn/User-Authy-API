@@ -12,11 +12,11 @@ import userRepositoriy from "../repositories/user.repositoriy";
         }
     
         const[Authytype,Token] = autorizationHeader.split(' ');
-        if(Authytype !== 'Basic || !token'){
+        if(Authytype !== 'Basic' || !Token){
             throw new ForbbidenError('Authy type Error!')
         }
     
-        const tokenContent = Buffer.from(Token, 'base64').toString('utf-8');
+        const tokenContent = Buffer.from(Token, 'base64').toString("utf-8");
         const[username,password] = tokenContent.split(':');
     
         if(!username || !password){
